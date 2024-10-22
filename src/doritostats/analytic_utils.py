@@ -451,7 +451,10 @@ def get_remaining_schedule_difficulty_df(
 
     remaining_difficulty["opp_win_pct_index"] = (
         preprocessing.MinMaxScaler((min(team_win_pct), max(team_win_pct)))
-        .fit_transform(remaining_difficulty.opp_win_pct.values.reshape(-1, 1))
+        opp_win_arr = remaining_difficulty.opp_win_pct.values.reshape(-1, 1)
+        if max(opp_win_arr) == min(opp_win_arr):
+            opp_win_arr[0][0] += .01 
+        .fit_transform(opp_win_arr)
         .flatten()
     )
 
